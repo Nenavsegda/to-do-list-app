@@ -76,6 +76,7 @@ class ItemValidationTest(FunctionalTest):
             "You've already got this in your list"
         ))
 
+    @skip
     def test_error_messages_are_cleared_on_input(self):
 
         # Edith starts a list and causes a validation error:
