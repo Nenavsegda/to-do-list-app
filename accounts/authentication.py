@@ -1,4 +1,4 @@
-from accounts.models import User, Token
+from accounts.models import Token, User
 
 
 class PasswordlessAuthenticationBackend:

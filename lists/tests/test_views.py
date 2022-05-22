@@ -1,12 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils.html import escape
-from lists.forms import DUPLICATE_ITEM_ERROR, EMPTY_ITEM_ERROR,\
+
+from lists.forms import DUPLICATE_ITEM_ERROR, EMPTY_ITEM_ERROR, \
     ExistingListItemForm, ItemForm
 from lists.models import Item, List
-from django.contrib.auth import get_user_model
-
 
 User = get_user_model()
+
 
 class HomePageTest(TestCase):
     def test_uses_home_template(self):
@@ -100,10 +101,7 @@ class ListViewTest(TestCase):
     def test_duplicate_item_validation_errors_end_up_on_lists_page(self):
         list1 = List.objects.create()
         item1 = Item.objects.create(list=list1, text='textey')
-        response = self.client.post(
-            f'/lists/{list1.id}/',
-            data={'text': 'textey'}
-        )
+        response = self.client.post(f'/lists/{list1.id}/', data={'text': 'textey'})
 
         expected_error = escape(DUPLICATE_ITEM_ERROR)
         self.assertContains(response, expected_error)
@@ -157,7 +155,6 @@ class NewListTest(TestCase):
 
 
 class MyListsTest(TestCase):
-
     def test_my_lists_url_renders_my_lists_template(self):
         User.objects.create(email='a@b.com')
         response = self.client.get('/lists/users/a@b.com/')

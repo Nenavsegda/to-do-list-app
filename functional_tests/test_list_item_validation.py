@@ -9,7 +9,6 @@ MAX_WAIT = 10
 
 
 class ItemValidationTest(FunctionalTest):
-
     def get_error_element(self):
         return self.browser.find_element(by=By.CSS_SELECTOR, value='.has-error')
 
@@ -69,7 +68,8 @@ class ItemValidationTest(FunctionalTest):
         self.get_item_input_box().send_keys(Keys.ENTER)
 
         # She sees a helpful error message
-        self.wait_for(lambda: self.assertEqual(
-            self.get_error_element().text,
-            "You've already got this in your list"
-        ))
+        self.wait_for(
+            lambda: self.assertEqual(
+                self.get_error_element().text, "You've already got this in your list"
+            )
+        )

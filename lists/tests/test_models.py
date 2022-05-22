@@ -1,14 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from lists.models import Item, List
-from django.contrib.auth import get_user_model
-
 
 User = get_user_model()
 
-class ItemModelsTest(TestCase):
 
+class ItemModelsTest(TestCase):
     def test_default_text(self):
         item = Item()
         self.assertEqual(item.text, '')
@@ -46,10 +45,7 @@ class ItemModelsTest(TestCase):
         item1 = Item.objects.create(list=list1, text='i1')
         item2 = Item.objects.create(list=list1, text='item 2')
         item3 = Item.objects.create(list=list1, text='3')
-        self.assertEqual(
-            list(Item.objects.all()),
-            [item1, item2, item3]
-        )
+        self.assertEqual(list(Item.objects.all()), [item1, item2, item3])
 
     def test_string_representation(self):
         item = Item(text='some text')
@@ -57,7 +53,6 @@ class ItemModelsTest(TestCase):
 
 
 class ListModelTest(TestCase):
-
     def test_get_absolute_url(self):
         list_ = List.objects.create()
         self.assertEqual(list_.get_absolute_url(), f'/lists/{list_.id}/')
@@ -69,3 +64,9 @@ class ListModelTest(TestCase):
 
     def test_list_owner_is_optional(self):
         List.objects.create()  # should not raise
+
+    def test_list_name_is_first_item_text(self):
+        list_ = List.objects.create()
+        Item.objects.create(list=list_, text='first item')
+        Item.objects.create(list=list_, text='second item')
+        self.assertEqual(list_.name, 'first item')

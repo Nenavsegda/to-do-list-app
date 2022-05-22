@@ -1,0 +1,23 @@
+[tool.black]
+line-length = 85                     # количество символов в строке
+skip-string-normalization = true     # пропускать форматирование кавычек
+
+
+[tool.isort]
+line_length = 85                   # количество символов в строке
+include_trailing_comma = false     # ставить запятую после полседнего импорта
+multi_line_output = 2              # стиль оформления многострочных импортов
+
+# сторонние пакеты
+known_third_party = []
+
+# пакеты из нашей системы
+known_first_party = []
+
+# локальные директории
+known_local_folder = [
+    'lists', 'superlists', 'accounts', 'functional_tests'
+]
+
+# порядок импортов
+sections = ['STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']

@@ -11,7 +11,6 @@ MAX_WAIT = 10
 
 
 class FunctionalTest(StaticLiveServerTestCase):
-
     def setUp(self):
         self.browser = webdriver.Firefox()
         staging_server = os.environ.get("STAGING_SERVER")
@@ -33,6 +32,7 @@ class FunctionalTest(StaticLiveServerTestCase):
                     if time.time() - start_time > MAX_WAIT:
                         raise e
                     time.sleep(0.5)
+
         return modified_fn
 
     @wait
@@ -62,7 +62,8 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     def add_list_item(self, item_text):
         num_rows = len(
-            self.browser.find_elements(by=By.CSS_SELECTOR, value='#id_list_table tr'))
+            self.browser.find_elements(by=By.CSS_SELECTOR, value='#id_list_table tr')
+        )
 
         self.get_item_input_box().send_keys(item_text)
         self.get_item_input_box().send_keys(Keys.ENTER)
