@@ -1,0 +1,53 @@
+name: functional tests and unit tests for superlists project
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  unittests:
+    name: Unittests
+
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_DB: 'django_db'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install requirements
+        run: |
+          pip install -r requirements.txt
+          export PYTHONPATH=$(pwd):$(pwd)/superlists
+
+      - name: Run unittests
+        run: |
+          pytest accounts/tests --cov=accounts
+          pytest lists/tests --cov=lists
+
+        env:
+          PostgreSQL_HOST_1: 127.0.0.1
+          DJANGO_SETTINGS_MODULE: superlists.settings
