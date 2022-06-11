@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  unittests:
+  tests:
     name: Unittests
 
     runs-on: ubuntu-latest
@@ -51,3 +51,12 @@ jobs:
         env:
           PostgreSQL_HOST_1: 127.0.0.1
           DJANGO_SETTINGS_MODULE: superlists.settings
+          MOZ_HEADLESS: 1
+
+      - name: Run functional tests
+        run: pytest functional_tests
+
+        env:
+          PostgreSQL_HOST_1: 127.0.0.1
+          DJANGO_SETTINGS_MODULE: superlists.settings
+          MOZ_HEADLESS: 1
